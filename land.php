@@ -3,6 +3,25 @@
 	$request = $db->query("SELECT * FROM users;");
 	$requestRowCount = $db->query("SELECT count(*) FROM users;")->fetchColumn();
 	#echo $request;
+
+	/**
+	 * Pirate should not know which field it guessed right.
+	 * This constant is used to ensure that the failure messages stay identical.
+	 */
+	const AUTHENTIFICATION_FAILURE_MESSAGE = "Authentication failed. Check that you entered your identifier and password correctly.";
+	const AUTHENTIFICATION_UNFOUND_MESSAGE = "Identifier not found in user table. Check that it is typed correctly or use it to register a new account";
+	require_once "session.php";
+	#echo $_SESSION["login_status"];
+	if (isset($_SESSION["login_status"])) {
+		// TODO: Better method to tell the user.
+		if ($_SESSION["login_status"] === "failure") {
+			echo "<strong>".AUTHENTIFICATION_FAILURE_MESSAGE."</strong>";
+		} else if ($_SESSION["login_status"] === "unfound") {
+			echo "<strong>".AUTHENTIFICATION_UNFOUND_MESSAGE."</strong>";
+		} else {
+			echo "<strong><em>Error: </em>Unknown login status!</strong>";
+		}
+	}
 ?>
 <!DOCTYPE html>
 <html>
