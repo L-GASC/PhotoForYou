@@ -58,6 +58,7 @@ if (isset($_POST["mail"]) and isset($_POST["pw"])) {
 			}
 			// TODO: Actual login
 			$_SESSION["login_status"] = "success";
+			$_SESSION["id"] = $mail;
 			#echo $_SERVER["PHP_SELF"];
 			header("Location: land.php");
 		} else {
@@ -86,7 +87,8 @@ if (isset($_POST["mail"]) and isset($_POST["pw"])) {
 				} else { // Bad repw
 					// TODO: IMPLEMENT: Tell the user
 					#echo "Error: Password does not match its confirmation!";
-					#echo "<script>console.error( \"Error: Password does not match its confirmation!\" )</script>";
+					$_SESSION["login_status"] = "bad repw";
+					header("Location: land.php");
 				}
 			} else { // No repw
 				//TODO: IMPLEMENT: Tell the user

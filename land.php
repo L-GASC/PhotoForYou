@@ -14,30 +14,32 @@
 	#echo $_SESSION["login_status"];
 	if (isset($_SESSION["login_status"])) {
 		// TODO: Better method to tell the user.
-		if ($_SESSION["login_status"] === "failure") {
-			echo "<strong>".AUTHENTIFICATION_FAILURE_MESSAGE."</strong>";
-		} else if ($_SESSION["login_status"] === "unfound") {
-			echo "<strong>".AUTHENTIFICATION_UNFOUND_MESSAGE."</strong>";
-		} else {
-			echo "<strong><em>Error: </em>Unknown login status!</strong>";
+		switch ($_SESSION["login_status"]) {
+			case "failure":
+				?><strong><?php echo AUTHENTIFICATION_FAILURE_MESSAGE;?></strong>"<?php
+				break;
+
+			case "unfound":
+				?><strong><?php echo AUTHENTIFICATION_UNFOUND_MESSAGE?></strong><?php
+				break;
+
+			default:
+				var_dump ($_SESSION["login_status"]);
+				//FIXME: Do not name variables in the output!
+				?><em><strong>Error: </strong>Unknown <code>login_status</code>!</em>";<?php
+				break;
 		}
 	}
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<link
+	<!--<link
 		href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
 		rel="stylesheet"
 		integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
 		crossorigin="anonymous"
-		'onerror="
-			this.onerror=null;
-			this.integrity=\"\";
-			this.href=\"../commons/style.css\";
-			console.error(\"Unable to Bootstrap\");
-		"'
-	>
+	>-->
 	<link href="../commons/style.css" rel="stylesheet"/>
 	<!--<style>* {background-color: var(--bs-dark);}</style>-->
 </head>
@@ -53,7 +55,7 @@
 			}
 		}';
 		
-		var_dump($request->fetchAll());
+		var_dump($request->fetchAll(PDO::FETCH_ASSOC));
 	?>
 	<?php require_once "footer.php"; ?>
 	</body>
