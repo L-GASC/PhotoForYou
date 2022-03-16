@@ -2,7 +2,7 @@
 	require_once "db_connect.php";
 	$request = $db->query("SELECT * FROM users;");
 	$requestRowCount = $db->query("SELECT count(*) FROM users;")->fetchColumn();
-	#echo $request;
+	#var_dump($request);
 
 	/**
 	 * Pirate should not know which field it guessed right.
@@ -11,7 +11,7 @@
 	const AUTHENTIFICATION_FAILURE_MESSAGE = "Authentication failed. Check that you entered your identifier and password correctly.";
 	const AUTHENTIFICATION_UNFOUND_MESSAGE = "Identifier not found in user table. Check that it is typed correctly or use it to register a new account";
 	require_once "session.php";
-	#echo $_SESSION["login_status"];
+	#var_dump($_SESSION["login_status"]);
 	if (isset($_SESSION["login_status"])) {
 		// TODO: Better method to tell the user.
 		switch ($_SESSION["login_status"]) {

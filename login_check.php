@@ -60,7 +60,7 @@ if (isset($_POST["mail"]) and isset($_POST["pw"])) {
 			$_SESSION["login_status"] = "success";
 			$_SESSION["id"] = $mail;
 			#echo $_SERVER["PHP_SELF"];
-			header("Location: land.php");
+			header("Location: index.php");
 		} else {
 			if ($regis == "on") {
 				// TODO: IMPLEMENT: Tell the user
@@ -70,7 +70,7 @@ if (isset($_POST["mail"]) and isset($_POST["pw"])) {
 				// TODO: IMPLEMENT: Tell the user
 				#echo AUTHENTIFICATION_FAILURE_MESSAGE;
 				$_SESSION["login_status"] = "failure";
-				header("Location: land.php");
+				header("Location: index.php");
 			}
 		}
 	} else { // User not found
@@ -88,7 +88,7 @@ if (isset($_POST["mail"]) and isset($_POST["pw"])) {
 					// TODO: IMPLEMENT: Tell the user
 					#echo "Error: Password does not match its confirmation!";
 					$_SESSION["login_status"] = "bad repw";
-					header("Location: land.php");
+					header("Location: index.php");
 				}
 			} else { // No repw
 				//TODO: IMPLEMENT: Tell the user
@@ -99,7 +99,7 @@ if (isset($_POST["mail"]) and isset($_POST["pw"])) {
 			// TODO: IMPLEMENT: Tell the user
 			#echo AUTHENTIFICATION_FAILURE_MESSAGE;
 			$_SESSION["login_status"] = "unfound";
-			header("Location: land.php");
+			header("Location: index.php");
 		}
 	}
 }
