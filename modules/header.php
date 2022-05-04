@@ -1,7 +1,6 @@
 <header> <!--TODO: Better header-->
 En t^te
 <?php
-require_once "session.php";
 /*// Back button
 	var_dump ($_SERVER["REQUEST_URI"]);
 	if ( !isset($_SESSION["last_pages"]) )
@@ -16,7 +15,7 @@ require_once "session.php";
 if ( !isset($_SESSION["login_status"]) || $_SESSION["login_status"] !== "success" )
 	require "login_form.php";
 else {
-	require_once "db_connect.php";
+	if (!isset($db)) require_once "db_connect.php";
 	$stmt = $db->prepare("SELECT userRank FROM users WHERE email = :mail;");
 	$stmt->bindParam(":mail", $_SESSION["id"]);
 	$stmt->execute();

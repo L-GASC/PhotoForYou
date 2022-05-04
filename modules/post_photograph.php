@@ -1,11 +1,15 @@
 <?php
-require_once "session.php";
-
 const PHOTO_INPUT_NAME = "photoUploads";
-/// Octal TODO: Change to an appropriate value.
+/// Octal TODO: SECURITY: Change permissions to an appropriate value.
 const DIRECTORY_PERMISSIONS = 0777;
-var_dump($_POST);
-var_dump($_FILES);
+
+//TODO: SECURITY: Check user credentials.
+if (isset($_SESSION["login_status"])) {
+	var_dump($_SESSION["login_status"]);
+} else { 
+	header("HTTP/1.1 401 Unauthorized");
+	exit;
+}
 
 /** TODOC
  * Undocumented function
@@ -54,6 +58,7 @@ $directory =
 if (!is_dir($directory))
 	mkdir($directory, DIRECTORY_PERMISSIONS, true);
 foreach ( $_FILES["photoUploads"] as $index => $file ) {
+	//TODO: SECURITY: Sanitize file name.
 	$path =
 		$directory.
 		pathinfo($file["name"], PATHINFO_FILENAME).".".

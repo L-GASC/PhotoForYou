@@ -1,16 +1,16 @@
 <?php
-require_once "db_connect.php";
-require_once 'session.php';
+if (!isset($db)) require_once "db_connect.php";
 
 /**
  * BCRYPT hashes into 60 characters.
  * 
  * DEFAULT may update as better hashing becomes possible.
- * Stored into varchar(255) in case the algorithm changes.
+ * Datatored into varchar(255) in case the algorithm changes.
  */
 const PASSWORD_HASH_ALGORITHM = PASSWORD_DEFAULT;
-const PASSWORD_HASH_OPTIONS = array(/*'cost' => 10*/);
-#var_dump(PASSWORD_HASH_OPTIONS);
+const PASSWORD_HASH_OPTIONS = array(
+	/*'cost' => 10*/
+);
 
 /**
  * Pirate should not know which field it guessed right.
@@ -22,28 +22,18 @@ if (isset($_POST["mail"]) and isset($_POST["pw"])) {
 	$mail = htmlentities($_POST["mail"]);
 	$password = $_POST["pw"];
 	$regis = isset($_POST['register']) ? $_POST['register'] : false;
-	#var_dump($regis);
-	#echo "get_include_path()"; var_dump(get_include_path());
-	#echo "get_included_files()"; var_dump(get_included_files());
-	#echo "count(get_included_files())"; var_dump(count(get_included_files()));
-	#echo "$ _SERVER"; var_dump($_SERVER);
-	#echo "$ _SERVER[\"SCRIPT_FILENAME\"]"; var_dump($_SERVER["SCRIPT_FILENAME"]);
 	
 	# Check if user already exists
 	$select = "SELECT passHash FROM users WHERE email = :email;";
 	$sStmt = $db->prepare($select, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
 	$sStmt->bindParam(":email", $mail);
-	#var_dump($sStmt);
 	$sStmt->execute();
 	/** sResult
 	 * Hash string if found, false otherwise.
 	 */
 	$sResult = $sStmt->fetchColumn();
-	#var_dump($sResult);
 	$passHash = password_hash($password, PASSWORD_HASH_ALGORITHM, PASSWORD_HASH_OPTIONS);
 	if (!is_bool($sResult)) { // User exists
-		#var_dump($password);
-		#var_dump(password_hash($password, PASSWORD_HASH_ALGORITHM, PASSWORD_HASH_OPTIONS));
 		// Login
 		#TODO: Better Errors
 		if (password_verify($password, $sResult)) {
@@ -56,7 +46,6 @@ if (isset($_POST["mail"]) and isset($_POST["pw"])) {
 				$uStmt->execute();
 				#echo "Password rehashed.";
 			}
-			// TODO: Actual login
 			$_SESSION["login_status"] = "success";
 			$_SESSION["id"] = $mail;
 			#echo $_SERVER["PHP_SELF"];
@@ -97,7 +86,6 @@ if (isset($_POST["mail"]) and isset($_POST["pw"])) {
 			}
 		} else { // Login
 			// TODO: IMPLEMENT: Tell the user
-			#echo AUTHENTIFICATION_FAILURE_MESSAGE;
 			$_SESSION["login_status"] = "unfound";
 			header("Location: index.php");
 		}
